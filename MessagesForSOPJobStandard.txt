@@ -1,18 +1,20 @@
 
-Publish job create event from HMI  receive in Cloud into Topic: iot-2/evt/<machine_id>_feed/fmt/json:
+Publish job create event from HMI and receive in Cloud into Topic:
+Direction: Device to cloud
+Content: Notify cloud that a sawband was installed
+Topic: iot-2/evt/<machine_id>_feed/fmt/json
 {
   "msg_type": "job_create"
   "version": "v1",
-  "lang": "de"
   "msg":{
     "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
-    "sawing_band_instance": "id_sawing_band", <- OPTIONAL not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message or derive from cloud data
+    "sawband_uuid": "sawband_uuid", <- OPTIONAL not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message or derive from cloud data
     "machine_id": "machine_id", -> redundant, could be retreived from topic
-    "material_id": "F350", <- name or id
-    "hardness": 3,
+    "material_id": "material_id", <- id
+    "hardness_id": 3,
     "length_mm": 250,
     "thickness_mm": 10,
-    "surface": "blanK",
+    "surface_id": 1,
     "multi_layer": true,
     "failure": true
     ...
@@ -20,23 +22,39 @@ Publish job create event from HMI  receive in Cloud into Topic: iot-2/evt/<machi
 }
 -> must be completed with data in cloud (time_stamp_start, time_stamp_end,...) derived from sensor data in a certain time range
 
-Publish master date for job creation
-Vorfilterung in der Cloud für die machine_id
-Publish from Cloud receive on HMI into Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
+Direction: Device to cloud
+Content: Notify device that a master data has changed
+Filters: filter in cloud for master data relevant to machine_id
+Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
 {
   "msg_type": "job_data",
   "version": "v1",
   lang: "de",
   "msg": {
     "material_types":[{
-        "mat_id": 23432, <- unique
-        "mat_name": "K110"
+        "id": 23432, <- unique
+        "name": "K110"
       },{
-        "mat_id": 23433, <- unique
-        "mat_name": "K220"
-      }],
-    "hardness_types":["3","4","5"],
-    "surface_types":["blank", "roh"]
+        "id": 23433, <- unique
+        "name": "K220"
+    }],
+    "hardness_types":[{
+        "id": 3, 						-> unique
+        "name": "HB400"
+      },{
+        "id": 4, 						-> unique
+        "name": "HB440"
+      },{
+        "id": 5, 						-> unique
+        "name": "HV800"
+    }],
+    "surface_types":[{
+        "id": 1, 							-> unique
+        "name": "blank"
+    },{
+        "id": 2, 							-> unique
+        "name": "roh"
+    }]
   },
   "localization_strings": {
     "de": {
@@ -54,9 +72,9 @@ Publish from Cloud receive on HMI into Topic: iot-2/cmd/<machine_id>_feed/fmt/js
 switch (msg_type)
 case: "job_data"
 ...
-prüfen ob message den key "gesenk_no_type" enthält
+prüfen ob message den key "gesenknumbers" enthält
 wenn nicht:
 pro Kategorie:
 job_types=JSON.parse(job_data_msg).msg.material_types
 ...
--> Variablen im Dropdown befüllen
+-> Variablen und Labels im Dropdown befüllen

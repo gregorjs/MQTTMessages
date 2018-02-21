@@ -1,30 +1,44 @@
 
-Publish band change event from HMI receive in Cloud into Topic: iot-2/evt/<machine_id>_feed/fmt/json:
+Publish band change event from HMI receive in Cloud into Topic:
+Direction: Device to cloud
+Content: Notify cloud that a sawband was installed
+Topic: iot-2/evt/<machine_id>_feed/fmt/json
 {
-  "msg_type": "band_create",
+  "msg_type": "sawband_create",
   "version": "v1",
-  "lang": "de",
   "msg":{
     "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
-    "sawing_band_type": "id_sawing_band_type", <- unique
+    "sawband_model_id": "sawband_model_id", <- unique
     "machine_id": "machine_id", -> redundant, could be retreived from topic
-    "sawing_band_uuid": c5212942-0cad-11e8-ba89-0ed5f89f718b, -> OPTIONAL
-    "change_cause": "unscharf"
+    "sawband_uuid": c5212942-0cad-11e8-ba89-0ed5f89f718b, -> OPTIONAL
+    "sawband_change_reason_id": 1
   }
 }
 
-Publish master date for band type
-Vorfilterung in der Cloud für die machine_id
-Publish from Cloud receive on HMI  into Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
+Direction: Device to cloud
+Content: Notify device that a master data has changed
+Filters: filter in cloud for master data relevant to machine_id
+Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
 {
-  "msg_type": "band_type",
+  "msg_type": "sawband_data",
   "version": "v1",
   "lang": "de",
   "msg":{
-    "band_change_reason": ["unscharf", "Zahn abgebrochen"],
-    "band_types":[
+    "sawband_change_reasons":[
       {
-        "id_sawing_band_type": 234234,
+        "id": 1,
+        "name": "unscharf"
+      },{
+        "id": 2,
+        "name": "Zahnbruch"
+      },{
+        "id": 3,
+        "name": "Bandbruch"
+      }
+    ],
+    "sawband_models":[
+      {
+        "id": 234234,
         "name": "Wikus Futura",
         "length": 200,
         "width":
@@ -32,7 +46,7 @@ Publish from Cloud receive on HMI  into Topic: iot-2/cmd/<machine_id>_feed/fmt/j
 
         ...
         },{
-        "id_sawing_band_type": 343444,
+        "id": 343444,
         "name": "Wikus Futura",
         "length": 100,
         "width":
@@ -43,8 +57,8 @@ Publish from Cloud receive on HMI  into Topic: iot-2/cmd/<machine_id>_feed/fmt/j
   },
   "localization_strings": {
     "de": {
-      "sawing_band_type": "Sägebandtyp",
-      "sawing_band_uuid": "Eingebautes Sägeband",
+      "sawband_type": "Sägebandtyp",
+      "sawband_uuid": "Eingebautes Sägeband",
       "change_cause": "Grund für Sägebandausbau"
     }
   }
@@ -52,9 +66,9 @@ Publish from Cloud receive on HMI  into Topic: iot-2/cmd/<machine_id>_feed/fmt/j
 
 
 switch (msg_type)
-case: "band_type"
+case: "sawband_data"
 ...
-band_types=JSON.parse(band_type_msg).msg
-for (i=0;i<band_types.length,i++){
+band_types=JSON.parse(sawband_data_msg).msg
+for (i=0;i<sawband_types.length,i++){
   var = band_types[i]
 }

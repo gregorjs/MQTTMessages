@@ -1,28 +1,31 @@
 
-Publish job create event from HMI  receive in Cloud into Topic: iot-2/evt/<machine_id>_feed/fmt/json:
+Publish job create event from HMI and receive in Cloud into Topic:
+Direction: Device to cloud
+Content: Notify cloud that a sawband was installed
+Topic: iot-2/evt/<machine_id>_feed/fmt/json
 {
   "msg_type": "job_create",
   "version": "v1",
-  "lang": "de",
   "msg":{
     "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
-    "sawing_band_instance": "id_sawing_band", <- not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message
+    "sawband_uuid": "sawband_uuid", <- not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message
     "machine_id": "machine_id", -> redundant, could be retreived from topic
-    "gesenk_no": "234-23"
+    "gesenknumber": "234-23"
     ...
   }
 }
 -> must be completed with data in cloud (time_stamp_start, time_stamp_end,...) derived from sensor data in a certan range
 
-Publish master date for job creation
-Vorfilterung in der Cloud für die machine_id
-Publish from Cloud receive on HMI into Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
+Direction: Device to cloud
+Content: Notify device that a master data has changed
+Filters: filter in cloud for master data relevant to machine_id
+Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
 {
   "msg_type": "job_data",
   "version": "v1",
   "lang": "de",
   "msg": {
-    "gesenk_no_type":["234-23","234-45",...]
+    "gesenknumbers":["234-23","234-45",...]
   },
   "localization_strings": {
     "de": {
@@ -34,7 +37,7 @@ Publish from Cloud receive on HMI into Topic: iot-2/cmd/<machine_id>_feed/fmt/js
 switch (msg_type)
 case: "job_data"
 ...
-prüfen ob message den key "gesenk_no_type" enthält
+prüfen ob message den key "gesenknumbers" enthält
 job_types=JSON.parse(job_data_msg).msg.gesenk_no_type
 ...
--> Variablen im Dropdown befüllen
+-> Variablen und Labels im Dropdown befüllen
