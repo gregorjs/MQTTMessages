@@ -68,7 +68,7 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
 switch (msg_type)
 case: "sawband_data"
 ...
-band_types=JSON.parse(sawband_data_msg).msg
+sawband_types=JSON.parse(sawband_data_msg).msg
 for (i=0;i<sawband_types.length,i++){
-  var = band_types[i]
+  var = sawband_types[i]
 }
