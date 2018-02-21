@@ -1,0 +1,62 @@
+
+Publish job create event from HMI  receive in Cloud into Topic: iot-2/evt/<machine_id>_feed/fmt/json:
+{
+  "msg_type": "job_create"
+  "version": "v1",
+  "lang": "de"
+  "msg":{
+    "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
+    "sawing_band_instance": "id_sawing_band", <- OPTIONAL not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message or derive from cloud data
+    "machine_id": "machine_id", -> redundant, could be retreived from topic
+    "material_id": "F350", <- name or id
+    "hardness": 3,
+    "length_mm": 250,
+    "thickness_mm": 10,
+    "surface": "blanK",
+    "multi_layer": true,
+    "failure": true
+    ...
+  }
+}
+-> must be completed with data in cloud (time_stamp_start, time_stamp_end,...) derived from sensor data in a certain time range
+
+Publish master date for job creation
+Vorfilterung in der Cloud für die machine_id
+Publish from Cloud receive on HMI into Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
+{
+  "msg_type": "job_data",
+  "version": "v1",
+  lang: "de",
+  "msg": {
+    "material_types":[{
+        "mat_id": 23432, <- unique
+        "mat_name": "K110"
+      },{
+        "mat_id": 23433, <- unique
+        "mat_name": "K220"
+      }],
+    "hardness_types":["3","4","5"],
+    "surface_types":["blank", "roh"]
+  },
+  "localization_strings": {
+    "de": {
+      "material": "Werkstoff",
+      "hardness" "Härte",
+      "length_mm": "Länge",
+      "thickness_mm": "Dicke",
+      "surface": "Oberfläche",
+      "multi_layer": "Mehrlagig",
+      "failure": "Schnitt war fehlerhaft"
+    }
+  }
+}
+
+switch (msg_type)
+case: "job_data"
+...
+prüfen ob message den key "gesenk_no_type" enthält
+wenn nicht:
+pro Kategorie:
+job_types=JSON.parse(job_data_msg).msg.material_types
+...
+-> Variablen im Dropdown befüllen

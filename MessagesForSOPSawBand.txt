@@ -1,0 +1,60 @@
+
+Publish band change event from HMI receive in Cloud into Topic: iot-2/evt/<machine_id>_feed/fmt/json:
+{
+  "msg_type": "band_create",
+  "version": "v1",
+  "lang": "de",
+  "msg":{
+    "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
+    "sawing_band_type": "id_sawing_band_type", <- unique
+    "machine_id": "machine_id", -> redundant, could be retreived from topic
+    "sawing_band_uuid": c5212942-0cad-11e8-ba89-0ed5f89f718b, -> OPTIONAL
+    "change_cause": "unscharf"
+  }
+}
+
+Publish master date for band type
+Vorfilterung in der Cloud für die machine_id
+Publish from Cloud receive on HMI  into Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
+{
+  "msg_type": "band_type",
+  "version": "v1",
+  "lang": "de",
+  "msg":{
+    "band_change_reason": ["unscharf", "Zahn abgebrochen"],
+    "band_types":[
+      {
+        "id_sawing_band_type": 234234,
+        "name": "Wikus Futura",
+        "length": 200,
+        "width":
+        "manufacturer":
+
+        ...
+        },{
+        "id_sawing_band_type": 343444,
+        "name": "Wikus Futura",
+        "length": 100,
+        "width":
+        "manufacturer":
+      ...
+      }
+    ]
+  },
+  "localization_strings": {
+    "de": {
+      "sawing_band_type": "Sägebandtyp",
+      "sawing_band_uuid": "Eingebautes Sägeband",
+      "change_cause": "Grund für Sägebandausbau"
+    }
+  }
+}
+
+
+switch (msg_type)
+case: "band_type"
+...
+band_types=JSON.parse(band_type_msg).msg
+for (i=0;i<band_types.length,i++){
+  var = band_types[i]
+}
