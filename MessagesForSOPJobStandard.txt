@@ -33,10 +33,12 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
   "msg": {
     "material_types":[{
         "id": 23432, <- unique
-        "name": "K110"
+        "name": "K110",
+        "default_hardness_id": 3
       },{
         "id": 23433, <- unique
-        "name": "K220"
+        "name": "K220",
+        "default_hardness_id": 5
     }],
     "hardness_types":[{
         "id": 3, 						-> unique
@@ -48,7 +50,6 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
         "id": 5, 						-> unique
         "name": "HV800"
     }],
-   "default_hardness_id": 3,
     "surface_types":[{
         "id": 1, 							-> unique
         "name": "blank"
