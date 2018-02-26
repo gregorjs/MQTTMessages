@@ -40,16 +40,16 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
       {
         "id": 234234,
         "name": "Wikus Futura",
-        "length": 200,
-        "width":
+        "length_mm": 200,
+        "width_mm":
         "manufacturer":
 
         ...
         },{
         "id": 343444,
         "name": "Wikus Futura",
-        "length": 100,
-        "width":
+        "length_mm": 100,
+        "width_mm":
         "manufacturer":
       ...
       }
