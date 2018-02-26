@@ -28,9 +28,7 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     "gesenknumbers":["234-23","234-45",...]
   },
   "localization_strings": {
-    "de": {
-      "gesenk_no": "Gesenknummer"
-    }
+    "gesenk_no": "Gesenknummer"
   }
 }
 

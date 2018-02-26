@@ -58,15 +58,13 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     }]
   },
   "localization_strings": {
-    "de": {
-      "material": "Werkstoff",
-      "hardness" "Härte",
-      "length_mm": "Länge",
-      "thickness_mm": "Dicke",
-      "surface": "Oberfläche",
-      "multi_layer": "Mehrlagig",
-      "failure": "Schnitt war fehlerhaft"
-    }
+    "material": "Werkstoff",
+    "hardness" "Härte",
+    "length_mm": "Länge",
+    "thickness_mm": "Dicke",
+    "surface": "Oberfläche",
+    "multi_layer": "Mehrlagig",
+    "failure": "Schnitt war fehlerhaft"
   }
 }
 

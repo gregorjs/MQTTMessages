@@ -56,11 +56,9 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     ]
   },
   "localization_strings": {
-    "de": {
-      "sawband_type": "Sägebandtyp",
-      "sawband_uuid": "Eingebautes Sägeband",
-      "change_cause": "Grund für Sägebandausbau"
-    }
+    "sawband_type": "Sägebandtyp",
+    "sawband_uuid": "Eingebautes Sägeband",
+    "change_cause": "Grund für Sägebandausbau"
   }
 }
 
