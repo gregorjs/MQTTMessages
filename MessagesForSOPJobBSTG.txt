@@ -11,7 +11,7 @@ Topic: iot-2/evt/<machine_id>_feed/fmt/json
     "sawband_uuid": "sawband_uuid", <- not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message
     "machine_id": "machine_id", -> redundant, could be retreived from topic
     "gesenknumber": "234-23"
-    ...
+    "failure": true
   }
 }
 -> must be completed with data in cloud (time_stamp_start, time_stamp_end,...) derived from sensor data in a certan range
@@ -28,7 +28,8 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     "gesenknumbers":["234-23","234-45",...]
   },
   "localization_strings": {
-    "gesenk_no": "Gesenknummer"
+    "gesenk_no": "Gesenknummer",
+    "failure": "Schnitt war fehlerhaft"
   }
 }
 
