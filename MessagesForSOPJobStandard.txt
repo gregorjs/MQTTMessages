@@ -48,6 +48,7 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
         "id": 5, 						-> unique
         "name": "HV800"
     }],
+   "default_hardness_id": 3,
     "surface_types":[{
         "id": 1, 							-> unique
         "name": "blank"
