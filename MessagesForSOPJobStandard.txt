@@ -8,7 +8,6 @@ Topic: iot-2/evt/<machine_id>_feed/fmt/json
   "version": "v1",
   "msg":{
     "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
-    "sawband_uuid": "sawband_uuid", <- OPTIONAL not known on site can be retreived in cloud from previous band_type message, alternatively create a UUID offline and send it with the band_create message or derive from cloud data
     "machine_id": "machine_id", -> redundant, could be retreived from topic
     "material_id": "material_id", <- id
     "hardness_id": 3,
@@ -17,7 +16,6 @@ Topic: iot-2/evt/<machine_id>_feed/fmt/json
     "surface_id": 1,
     "multi_layer": true,
     "failure": true
-    ...
   }
 }
 -> must be completed with data in cloud (time_stamp_start, time_stamp_end,...) derived from sensor data in a certain time range
@@ -65,7 +63,8 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     "thickness_mm": "Dicke [mm]",
     "surface": "Oberfläche",
     "multi_layer": "Mehrlagig",
-    "failure": "Schnitt war fehlerhaft"
+    "failure": "Schnitt war fehlerhaft",
+    "send_button": "Senden"
   }
 }
 

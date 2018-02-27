@@ -10,7 +10,6 @@ Topic: iot-2/evt/<machine_id>_feed/fmt/json
     "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
     "sawband_model_id": "sawband_model_id", <- unique
     "machine_id": "machine_id", -> redundant, could be retreived from topic
-    "sawband_uuid": c5212942-0cad-11e8-ba89-0ed5f89f718b, -> OPTIONAL
     "sawband_change_reason_id": 1
   }
 }
@@ -56,9 +55,9 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     ]
   },
   "localization_strings": {
-    "sawband_model": "Sägebandtyp",
     "sawband_instance": "Eingebautes Sägeband",
-    "change_cause": "Grund für Sägebandausbau"
+    "change_cause": "Grund für Sägebandausbau",
+    "send_button": "Senden"
   }
 }
 
