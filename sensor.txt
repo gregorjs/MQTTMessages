@@ -2,9 +2,9 @@ Version 1:
 {
   "msg_type": "sensor_readings",
   "version" : "1.0",
-  "msg":{  
+  "msg":{
 	  "timestamp" : "2018-02-12T16:39:32+01:00",
-	  "machine_id" : "machine1",
+	  "machine_id" : 2,
 	  "current" : "9.81",
 	  "rpm" : "4.67"
   }
