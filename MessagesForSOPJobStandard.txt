@@ -1,15 +1,18 @@
 
-Publish job create event from HMI and receive in Cloud into Topic:
 Direction: Device to cloud
-Content: Notify cloud that a sawband was installed
+Aim: Publish information that a new job was started/created.
+Triggered by the saw operator clicking on the bottom HMI-Send-Button
+Content: The data currently displayed on the bottom part of the UI which was entered by the user.
 Topic: iot-2/evt/<machine_id>_feed/fmt/json
+iot-2/type/+/id/testDevices2/evt/+/fmt/json
+iot-2/type/x20/id/testDevices2/evt/machineData/fmt/json
 {
-  "msg_type": "job_create"
-  "version": "v1",
+  "msg_type": "job_create",
+  "version": "1.0",
   "msg":{
-    "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
-    "machine_id": "machine_id", -> redundant, could be retreived from topic
-    "material_id": "material_id", <- id
+    "timestamp": "2018-02-12T16:39:32+01:00", 					-> ISO-8601 with timezone!
+    "machine_id": 2,
+    "material_id": 6,
     "hardness_id": 3,
     "length_mm": 250,
     "thickness_mm": 10,
@@ -18,42 +21,42 @@ Topic: iot-2/evt/<machine_id>_feed/fmt/json
     "failure": true
   }
 }
--> must be completed with data in cloud (time_stamp_start, time_stamp_end,...) derived from sensor data in a certain time range
 
-Direction: Device to cloud
-Content: Notify device that a master data has changed
+Direction: Cloud to device
+Aim: Notify a specific saw that related master data was changed by a user in the master data UI.
+	It is also used to send localized strings for the bottom part of the displayed UI at the saw.
 Filters: filter in cloud for master data relevant to machine_id
 Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
 {
   "msg_type": "job_data",
-  "version": "v1",
-  lang: "de",
+  "version": "1.0",
+  "lang": "de",
   "msg": {
     "material_types":[{
-        "id": 23432, <- unique
+        "id": 23432,
         "name": "K110",
         "default_hardness_id": 3
       },{
-        "id": 23433, <- unique
+        "id": 23433,
         "name": "K220",
         "default_hardness_id": 5
     }],
     "hardness_types":[{
-        "id": 3, 						-> unique
+        "id": 3,
         "name": "HB400"
       },{
-        "id": 4, 						-> unique
+        "id": 4,
         "name": "HB440"
       },{
-        "id": 5, 						-> unique
+        "id": 5,
         "name": "HV800"
     }],
     "surface_types":[{
-        "id": 1, 							-> unique
+        "id": 1,
         "name": "blank"
     },{
-        "id": 2, 							-> unique
-        "name": "roh"
+        "id": 2,
+        "name": "black"
     }]
   },
   "localization_strings": {
@@ -67,13 +70,3 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     "send_button": "Senden"
   }
 }
-
-switch (msg_type)
-case: "job_data"
-...
-prüfen ob message den key "gesenknumbers" enthält
-wenn nicht:
-pro Kategorie:
-job_types=JSON.parse(job_data_msg).msg.material_types
-...
--> Variablen und Labels im Dropdown befüllen

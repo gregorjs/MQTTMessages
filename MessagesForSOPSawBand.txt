@@ -1,26 +1,30 @@
 
-Publish band change event from HMI receive in Cloud into Topic:
 Direction: Device to cloud
-Content: Notify cloud that a sawband was installed
+Aim: Publish info to the cloud that a new sawband was installed for a certain reason.
+Triggered by the saw operator clicking on the top HMI-Send-Button
+Content: The data currently displayed on the top of the UI which was entered by the user.
 Topic: iot-2/evt/<machine_id>_feed/fmt/json
+iot-2/type/+/id/testDevices2/evt/+/fmt/json
+iot-2/type/x20/id/testDevices2/evt/machineData/fmt/json
 {
   "msg_type": "sawband_create",
-  "version": "v1",
+  "version": "1.0",
   "msg":{
-    "timestamp": "2018-02-12T16:39:32+01:00", -> ISO-8601 with timezone!
-    "sawband_model_id": "sawband_model_id", <- unique
-    "machine_id": "machine_id", -> redundant, could be retreived from topic
+    "timestamp": "2018-02-12T16:39:32+01:00", 			-> ISO-8601 with timezone!
+    "sawband_model_id": 7,
+    "machine_id": 4,
     "sawband_change_reason_id": 1
   }
 }
 
-Direction: Device to cloud
-Content: Notify device that a master data has changed
+Direction: Cloud to device
+Aim: Notify a specific saw (and its UI) that the masterdata of its related sawbands were changed by a user in the master data UI.
+	It is also used to send localized strings for the top part of the displayed UI at the saw.
 Filters: filter in cloud for master data relevant to machine_id
 Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
 {
   "msg_type": "sawband_data",
-  "version": "v1",
+  "version": "1.0",
   "lang": "de",
   "msg":{
     "sawband_change_reasons":[
@@ -34,23 +38,31 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
         "id": 3,
         "name": "Bandbruch"
       }
+	  ...
     ],
     "sawband_models":[
       {
         "id": 234234,
         "name": "Wikus Futura",
+        "manufacturer": "Amika"
         "length_mm": 200,
-        "width_mm":
-        "manufacturer":
-
-        ...
+        "width_mm": 300,
+		"thickness_mm": 1,
+		"regrinded": true,
+		"bandtype": "bimetal"
+		"coatingtype": "coated"
+		"cuttingquality": "PM"
         },{
         "id": 343444,
         "name": "Wikus Futura",
+        "manufacturer": "Behringer"
         "length_mm": 100,
-        "width_mm":
-        "manufacturer":
-      ...
+        "width_mm": 400
+		"thickness_mm": 1.2,
+		"regrinded": true,
+		"bandtype": "bimetal"
+		"coatingtype": "coated"
+		"cuttingquality": "PM"
       }
     ]
   },
@@ -59,13 +71,4 @@ Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
     "change_cause": "Grund für Sägebandausbau",
     "send_button": "Senden"
   }
-}
-
-
-switch (msg_type)
-case: "sawband_data"
-...
-sawband_types=JSON.parse(sawband_data_msg).msg
-for (i=0;i<sawband_types.length,i++){
-  var = sawband_types[i]
 }

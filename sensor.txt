@@ -1,0 +1,22 @@
+Version 1:
+{
+  "msg_type": "sensor_readings",
+  "version" : "1.0",
+  "msg":{  
+	  "timestamp" : "2018-02-12T16:39:32+01:00",
+	  "machine_id" : "machine1",
+	  "current" : "9.81",
+	  "rpm" : "4.67"
+  }
+}
+
+
+
+Version 0 - deprecated:
+{
+  "version" : "1.0.",
+  "sawID" : "machine1",
+  "current" : "9.81",
+  "RPM" : "4.67",
+  "time" : "2018-02-21T16:48:04.368Z"
+}
