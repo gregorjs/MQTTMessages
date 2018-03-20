@@ -3,9 +3,8 @@ Direction: Device to cloud
 Aim: Publish information that a new job was started/created.
 Triggered by the saw operator clicking on the bottom HMI-Send-Button
 Content: The data currently displayed on the bottom part of the UI which was entered by the user.
-Topic: iot-2/evt/<machine_id>_feed/fmt/json
-iot-2/type/+/id/testDevices2/evt/+/fmt/json
-iot-2/type/x20/id/testDevices2/evt/machineData/fmt/json
+Topic:
+iot-2/type/<machine_type>/id/<machine_id>/evt/machineData/fmt/json:
 {
   "msg_type": "job_create",
   "version": "1.0",
@@ -23,16 +22,17 @@ Direction: Cloud to device
 Aim: Notify a specific saw that related master data was changed by a user in the master data UI.
 	It is also used to send localized strings for the bottom part of the displayed UI at the saw.
 Filters: filter in cloud for master data relevant to machine_id
-Topic: iot-2/cmd/<machine_id>_feed/fmt/json:
+Topic: iot-2/type/<machine_type>/id/<machine_id>/cmd/machineData/fmt/json:
 {
-  "msg_type": "job_data",
+  "msg_type": "job_data_bstg",
   "version": "1.0",
   "lang": "de",
   "msg": {
-    "gesenknumbers":["234-23","234-45",...]
+    "gesenknumbers":["234-23","345-67",...]
   },
   "localization_strings": {
-    "gesenk_no": "Gesenknummer",
+    "job_information": "Job Information:",
+    "gesenknumber": "Gesenknummer",
     "failure": "Schnitt war fehlerhaft",
     "send_button": "Senden"
   }
